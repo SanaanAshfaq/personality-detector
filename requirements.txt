@@ -1,0 +1,10 @@
+Django==5.0.6
+djangorestframework==3.15.1
+pandas
+scikit-learn
+joblib
+numpy
+xgboost
+python-dotenv
+openai
+llm-groq==0.9
