@@ -25,13 +25,16 @@ If you do not want to use Git:
 ### 2. Virtual environment setup
 
 🪟 FOr Windows Users (Command Prompt / PowerShell)
+```
 python -m venv venv
 venv\Scripts\activate
+```
 
 🍎 For Mac Users
+```
 python3 -m venv venv
 source venv/bin/activate
-
+```
 ---
 
 ### 3. Install the dependencies to run the project successfully
