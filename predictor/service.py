@@ -1,9 +1,25 @@
 import os
+import re
 import joblib
+import nltk
 from django.conf import settings
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 
+MODEL_DIR = os.path.join(settings.BASE_DIR, "models")
 
-MODEL_DIR = os.path.join(settings.BASE_DIR, "predictor", "ml_models")
+nltk.download("stopwords", quiet=True)
+nltk.download("wordnet", quiet=True)
+
+lemmatiser = WordNetLemmatizer()
+useless_words = set(stopwords.words("english"))
+
+unique_type_list = [
+    "infj", "entp", "intp", "intj",
+    "entj", "enfj", "infp", "enfp",
+    "isfp", "istp", "isfj", "istj",
+    "estp", "esfp", "estj", "esfj"
+]
 
 
 class PersonalityPredictor:
@@ -18,17 +34,39 @@ class PersonalityPredictor:
         )
 
         self.models = {
-            "IE": joblib.load(os.path.join(MODEL_DIR, "IE__Introversion__I____Extroversion__E__model.pkl")),
-            "NS": joblib.load(os.path.join(MODEL_DIR, "NS__Intuition__N____Sensing__S__model.pkl")),
-            "FT": joblib.load(os.path.join(MODEL_DIR, "FT__Feeling__F____Thinking__T__model.pkl")),
-            "JP": joblib.load(os.path.join(MODEL_DIR, "JP__Judging__J____Perceiving__P__model.pkl")),
+            "IE": joblib.load(os.path.join(MODEL_DIR, "IE_xgb_model.pkl")),
+            "NS": joblib.load(os.path.join(MODEL_DIR, "NS_xgb_model.pkl")),
+            "FT": joblib.load(os.path.join(MODEL_DIR, "FT_xgb_model.pkl")),
+            "JP": joblib.load(os.path.join(MODEL_DIR, "JP_xgb_model.pkl")),
         }
 
-    def predict(self, text):
-        text = [text]
+    def preprocess_text(self, text):
+        temp = re.sub(
+            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+            " ",
+            text
+        )
 
-        X_cnt = self.vectorizer.transform(text)
-        X_tfidf = self.tfidf.transform(X_cnt)
+        temp = re.sub(r"[^a-zA-Z]", " ", temp)
+        temp = re.sub(r" +", " ", temp).lower()
+        temp = re.sub(r"([a-z])\1{2,}[\s|\w]*", "", temp)
+
+        temp = " ".join(
+            [lemmatiser.lemmatize(w) for w in temp.split(
+                " ") if w and w not in useless_words]
+        )
+
+        for t in unique_type_list:
+            temp = temp.replace(t, "")
+
+        return temp.strip()
+
+    def predict(self, text):
+        cleaned_text = self.preprocess_text(text)
+        text_input = [cleaned_text]
+
+        X_cnt = self.vectorizer.transform(text_input)
+        X_tfidf = self.tfidf.transform(X_cnt).toarray()
 
         label_mapping = {
             "IE": {0: "I", 1: "E"},
@@ -42,15 +80,11 @@ class PersonalityPredictor:
         personality_percentages = {}
 
         for key, model in self.models.items():
-            probs = model.predict_proba(X_tfidf)[0]  
+            pred = model.predict(X_tfidf)[0]
+            letter = label_mapping[key][pred]
 
-  
-            if probs[0] > probs[1]:
-                letter = label_mapping[key][0]
-                percent = probs[0] * 100
-            else:
-                letter = label_mapping[key][1]
-                percent = probs[1] * 100
+            probs = model.predict_proba(X_tfidf)[0]
+            percent = max(probs) * 100
 
             final_type += letter
             percentages.append(percent)
