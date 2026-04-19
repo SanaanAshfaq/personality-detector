@@ -1,5 +1,26 @@
 # Personality Prediction API using MBTI
 
+## 📊 Dataset
+
+The dataset that was used to train this model cannot be uploaded to GitHub due to its large size.
+
+It is available for download from Kaggle via the following URL:
+👉 https://www.kaggle.com/datasets/datasnaek/mbti-type
+
+### 📥 How to use the dataset
+
+1. Download the dataset using the link above
+2. Extract the files
+3. Put the dataset(e.g., `mbti_1.csv`) in the project root directory
+
+---
+
+⚠️ Note:
+
+*  You need the dataset only if you intend to retrain the model
+* It is **not required** to run the API (pre-trained models are already included)
+
+
 ## 📦 Installation Process
 
 ### 1. Clone the repository (option 1)
@@ -24,7 +45,7 @@ If you do not want to use Git:
 
 ### 2. Virtual environment setup
 
-🪟 FOr Windows Users (Command Prompt / PowerShell)
+🪟 For Windows Users (Command Prompt / PowerShell)
 ```
 python -m venv venv
 venv\Scripts\activate
@@ -127,6 +148,6 @@ Send POST request in JSON Format:
 
 ## ⚠️ Warnings
 
-* Make sure `models/` folder is present before running
+* Make sure `models/` folder is present before running (the folder is located in the root). These are the models used by API for prediction.
 * If `.env` is missing, advice feature may not work
 * Personality prediction will still work without API key
