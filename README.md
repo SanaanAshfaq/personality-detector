@@ -48,12 +48,16 @@ If you do not want to use Git:
 🪟 For Windows Users (Command Prompt / PowerShell)
 ```
 python -m venv venv
+```
+```
 venv\Scripts\activate
 ```
 
 🍎 For Mac Users
 ```
 python3 -m venv venv
+```
+```
 source venv/bin/activate
 ```
 ---
