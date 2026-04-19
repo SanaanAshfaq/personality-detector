@@ -165,5 +165,4 @@ Send POST request in JSON Format:
 ## ⚠️ Warnings
 
 * Make sure `models/` folder is present before running (the folder is located in the root). These are the models used by API for prediction.
-* If `.env` is missing, advice feature may not work
-* Personality prediction will still work without API key
+* If `.env` is missing, advice feature will not work as well as server will also not start.
