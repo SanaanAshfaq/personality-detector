@@ -87,10 +87,19 @@ Create a file named:
 
 ### Step 2: Add this inside `.env` means insert this inside the file created above
 
+For univeristy markers
 ```
 GROQ_API_KEY=Key is provided in the report
 ```
+For other users(Create you own key)
+1. visit this site: https://console.groq.com
+2. Log in/create account
+3. Create a new API key
 
+Now: 
+```
+GROQ_API_KEY= Paste your grok api key here
+```
 ---
 
 ## ▶️ Run the Project
