@@ -27,6 +27,8 @@ It is available for download from Kaggle via the following URL:
 
 ```bash
 git clone https://github.com/SanaanAshfaq/personality-detector.git
+```
+```
 cd personality-detector
 ```
 
@@ -39,7 +41,8 @@ If you do not want to use Git:
 1. Click **Code → Download ZIP** on GitHub
 2. Unzip it 
 3. Now you can open the extracted folder which you get after extraxt the ZIP file (for example, `personality-detector-main`)
-4. Open the terminal inside that folder
+4. If you see another folder inside (for example `personality-detector-main`), open that inner folder which contains manage.py, requirments.txt,README.md,models/,personality_api/,predictor/ etc
+5. Open the terminal inside that folder 
 
 ---
 
@@ -85,7 +88,7 @@ Create a file named:
 ### Step 2: Add this inside `.env` means insert this inside the file created above
 
 ```
-GROQ_API_KEY="Key is provided in the report"
+GROQ_API_KEY=Key is provided in the report
 ```
 
 ---

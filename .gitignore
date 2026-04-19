@@ -1,0 +1,13 @@
+# VS Code settings
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.env
+
+#temporary file
+tempCodeRunnerFile.ipynb
